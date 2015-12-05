@@ -29,3 +29,7 @@ sh /mnt/VBoxLinuxAdditions.run
 umount /mnt
 
 rm VBoxGuestAdditions_$VBOX_VERSION.iso
+
+# Install ngingx
+apt-get install -y nginx
+sudo /etc/init.d/nginx start
