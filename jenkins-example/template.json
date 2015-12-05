@@ -11,7 +11,10 @@
     },
     {
       "type": "shell",
-      "script": "scripts/jenkins.sh",
+      "scripts": [
+        "scripts/jenkins_base.sh",
+        "scripts/jenkins_plugins.sh"
+      ],
       "override": {
         "virtualbox-iso": {
           "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
