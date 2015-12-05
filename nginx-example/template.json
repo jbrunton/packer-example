@@ -1,14 +1,32 @@
 {
+  "variables": {
+    "digitalocean_access_token": ""
+  },
   "provisioners": [
     {
       "type": "shell",
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
-      "scripts": [
-        "scripts/vagrant.sh"
-      ]
+      "script": "scripts/vagrant.sh",
+      "only": ["virtualbox-iso"]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/nginx.sh",
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        }
+      }
     }
   ],
   "builders": [
+    {
+      "type": "digitalocean",
+      "api_token": "{{user `digitalocean_access_token`}}",
+      "image": "ubuntu-12-04-x64",
+      "region": "nyc2",
+      "size": "512mb"
+    },
     {
       "type": "virtualbox-iso",
       "guest_os_type": "Ubuntu_64",
@@ -35,7 +53,8 @@
   ],
   "post-processors": [
     {
-      "type": "vagrant"
+      "type": "vagrant",
+      "only": ["virtualbox-iso"]
     }
   ]
 }
