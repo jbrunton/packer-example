@@ -1,4 +1,13 @@
 {
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
+      "scripts": [
+        "scripts/vagrant.sh"
+      ]
+    }
+  ],
   "builders": [
     {
       "type": "virtualbox-iso",
@@ -7,10 +16,10 @@
       "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
       "iso_checksum": "769474248a3897f4865817446f9a4a53",
       "iso_checksum_type": "md5",
-      "ssh_username": "packer",
-      "ssh_password": "packer",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
       "boot_command": [
         "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic ",
@@ -22,6 +31,11 @@
         "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
         "initrd=/install/initrd.gz -- <enter>"
       ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant"
     }
   ]
 }
